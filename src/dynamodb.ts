@@ -1,4 +1,4 @@
-import {DynamoDBDocumentClient, PutCommand} from '@aws-sdk/lib-dynamodb';
+import {DynamoDBDocumentClient, GetCommand, PutCommand} from '@aws-sdk/lib-dynamodb';
 import {fromEnv} from '@aws-sdk/credential-providers';
 import {DynamoDBClient} from '@aws-sdk/client-dynamodb';
 import * as dotenv from 'dotenv';
@@ -39,7 +39,7 @@ export const WriteRecord = async (record: Record<string, string>) => {
         MediaType: record.Type,
         GSI1PK: 'AsOf',
         GSI1SK: record['As of'],
-        Rank: stringToNumberOrNull(record.Rank),
+        NetflixRank: stringToNumberOrNull(record.Rank),
         YearToDateRanK: stringToNumberOrNull(record['Year to Date Rank']),
         LastWeekRank: stringToNumberOrNull(record['Last Week Rank']),
         NetflixExclusive: record['Netflix Exclusive'] === 'Yes',
@@ -62,4 +62,26 @@ export const WriteRecord = async (record: Record<string, string>) => {
         console.error('dynamodb write record error', error);
     }
     return false;
+};
+
+export const ReadRecord = async (title: string) => {
+    const id = shake256(title, 6)
+    const params = {
+        TableName: TABLE_NAME,
+        Key: {
+            PK: id,
+            SK: id,
+        },
+        ProjectionExpression: 'NetflixRank,NetflixReleaseDate,DaysInTop10,ViewershipScore',
+    };
+
+    try {
+        const result = await DynamoDoc_Client.send(new GetCommand(params));
+        if (result && result.Item) {
+            return result.Item;
+        }
+    } catch (error) {
+        console.error('dynamodb read record error', error);
+    }
+    return null;
 };

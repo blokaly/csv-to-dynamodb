@@ -3,7 +3,8 @@
     "node": ">=10.6.0"
   },
   "scripts": {
-    "start": "npx ts-node src/app.ts",
+    "parse": "npx ts-node src/app.ts",
+    "query": "npx ts-node src/query.ts",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",
@@ -19,8 +20,10 @@
     "@aws-sdk/lib-dynamodb": "^3.637.0",
     "commander": "^12.1.0",
     "csv-parse": "^5.5.6",
+    "csv-stringify": "^6.5.1",
     "dotenv": "^16.4.5",
-    "figlet": "^1.7.0"
+    "figlet": "^1.7.0",
+    "stream-transform": "^3.3.2"
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.609.0",
