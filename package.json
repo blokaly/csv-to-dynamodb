@@ -1,0 +1,32 @@
+{
+  "engines": {
+    "node": ">=10.6.0"
+  },
+  "scripts": {
+    "start": "npx ts-node src/app.ts",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "npm run lint"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.637.0",
+    "@aws-sdk/credential-provider-node": "^3.637.0",
+    "@aws-sdk/credential-providers": "^3.675.0",
+    "@aws-sdk/lib-dynamodb": "^3.637.0",
+    "commander": "^12.1.0",
+    "csv-parse": "^5.5.6",
+    "dotenv": "^16.4.5",
+    "figlet": "^1.7.0"
+  },
+  "devDependencies": {
+    "@aws-sdk/types": "^3.609.0",
+    "@types/figlet": "^1.5.8",
+    "@types/node": "20.12.7",
+    "gts": "^5.3.1",
+    "typescript": "^5.6.2"
+  }
+}
